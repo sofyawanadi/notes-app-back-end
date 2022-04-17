@@ -33,6 +33,7 @@ class NotesHandler {
         },
       });
       response.code(201);
+
       return response;
     } catch (error) {
       if (error instanceof ClientError) {
@@ -40,17 +41,22 @@ class NotesHandler {
           status: 'fail',
           message: error.message,
         });
+        // console.log(error.statusCode);
         response.code(error.statusCode);
         return response;
       }
 
+      // Server ERROR!
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
       });
+      console.log("gagal")
+
       response.code(500);
       console.error(error);
       return response;
+
     }
   }
   getNotesHandler() {

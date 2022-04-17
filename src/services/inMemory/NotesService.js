@@ -25,6 +25,7 @@ class NotesService {
         const isSuccess = this._notes.filter((note) => note.id === id).length > 0;
 
         if (!isSuccess) {
+          console.log("error")
           throw new InvariantError('Catatan gagal ditambahkan');
           }
        
