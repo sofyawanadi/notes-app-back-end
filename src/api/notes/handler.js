@@ -59,7 +59,7 @@ class NotesHandler {
 
     }
   }
- async getNotesHandler() {
+  async getNotesHandler() {
     const notes = await this._service.getNotes();
     return {
       status: 'success',
@@ -68,12 +68,12 @@ class NotesHandler {
       },
     };
   }
-  getNoteByIdHandler(request, h) {
+  async getNoteByIdHandler(request, h) {
     try {
       const {
         id
       } = request.params;
-      const note = this._service.getNoteById(id);
+      const note =await this._service.getNoteById(id);
       return {
         status: 'success',
         data: {
@@ -101,9 +101,9 @@ class NotesHandler {
 
     }
   }
- async putNoteByIdHandler(request, h) {
-    this._validator.validateNotePayload(request.payload);
+  async putNoteByIdHandler(request, h) {
     try {
+      this._validator.validateNotePayload(request.payload);
       const {
         id
       } = request.params;
@@ -123,12 +123,12 @@ class NotesHandler {
         response.code(error.statusCode);
         return response;
       }
-
       // Server ERROR!
       const response = h.response({
         status: 'error',
         message: 'Maaf, terjadi kegagalan pada server kami.',
       });
+      console.log(response);
       response.code(500);
       console.error(error);
       return response;

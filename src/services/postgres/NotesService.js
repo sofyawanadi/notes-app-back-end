@@ -15,7 +15,7 @@ class NotesService {
     constructor() {
         this._pool = new Pool();
     }
-    addNote({
+    async addNote({
         title,
         body,
         tags
@@ -29,9 +29,8 @@ class NotesService {
             values: [id, title, body, tags, createdAt, updatedAt],
         };
 
-        const result = this._pool.query(query);
-        console.log("error id")
-        console.log(result.rows[1])
+        const result = await this._pool.query(query);
+        console.log(result)
         if (result.rows[0].id == null) {
             throw new InvariantError('Catatan gagal ditambahkan');
         }
@@ -50,12 +49,11 @@ class NotesService {
             values: [id],
         };
         const result = await this._pool.query(query);
-
         if (!result.rows.length) {
             throw new NotFoundError('Catatan tidak ditemukan');
-        }
-
-        return result.rows.map(mapDBToModel)[0];
+          }
+      
+          return result.rows.map(mapDBToModel)[0];
     }
 
     async editNoteById(id, {
